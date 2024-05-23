@@ -45,13 +45,20 @@ namespace HospitalManagementSystem.Services
 			_context.SaveChanges();
 		}
 
-		public void Update(Doctor doctor)
+		public bool UpdateDoctor(Doctor doctor)
 		{
-			_context.Doctors.Update(doctor);
-			_context.SaveChanges();
-		}
+            var doctorToUpdate = _context.Doctors.FirstOrDefault(x => x.Id == doctor.Id);
+            if (doctorToUpdate == null)
+            {
+                return false;
+            }
+            _context.Entry(doctorToUpdate).CurrentValues.SetValues(doctor);
 
-		public void Delete(Doctor doctor)
+            int affectedRows = _context.SaveChanges();
+            return affectedRows > 0;
+        }
+
+		public bool DeleteDoctor(Doctor doctor)
 		{
 			_context.Doctors.Remove(doctor);
 			_context.SaveChanges();
