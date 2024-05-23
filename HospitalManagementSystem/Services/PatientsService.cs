@@ -13,7 +13,7 @@ namespace HospitalManagementSystem.Services
             _context = new HospitalDbContext();
         }
 
-        public List<Patient> GetPatients(string search = "", int pageNumber = 1, int pageSize = 20)
+        public List<Patient> GetPatients(string search = "", int? pageNumber = null, int? pageSize = null)
         {
             var query = _context.Patients
                 .Include(x => x.Appointments)
@@ -23,6 +23,18 @@ namespace HospitalManagementSystem.Services
                 .AsNoTracking()
                 .AsQueryable();
 
+            if (pageNumber is not null && pageSize is not null)
+            {
+                query = _context.Patients
+                    .Skip((int)pageNumber).Take((int)pageSize)
+                    .Include(x => x.Appointments)
+                    .ThenInclude(a => a.Doctor)
+                    .Include(x => x.Appointments)
+                    .ThenInclude(x => x.Visit)
+                    .AsNoTracking()
+                    .AsQueryable();
+            }
+
             if (!string.IsNullOrEmpty(search))
             {
                 query = query.Where(x => x.FirstName.Contains(search) ||
@@ -30,12 +42,22 @@ namespace HospitalManagementSystem.Services
                     x.PhoneNumber.Contains(search));
             }
 
-            var patients = query
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToList();
 
-            return patients;
+            return query.ToList();
+        }
+
+        public int GetPatientsCount(string? searchText = null)
+        {
+            int count = 0;
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                count = _context.Patients.Where(x => x.FirstName.Contains(searchText) ||
+                    x.LastName.Contains(searchText) ||
+                    x.PhoneNumber.Contains(searchText)).Count();
+
+                return count;
+            }
+            return _context.Patients.Count();
         }
 
         public int GetTotalCount() => _context.Patients.Count();
@@ -43,22 +65,47 @@ namespace HospitalManagementSystem.Services
         public Patient? GetPatientById(int id)
             => _context.Patients.FirstOrDefault(x => x.Id == id);
 
-        public void Create(Patient patient)
+        public List<string> GetGenders()
+        {
+            var genderList = Enum.GetNames(typeof(Gender)).ToList();
+
+            return genderList;
+        }
+
+        public bool Create(Patient patient)
         {
             _context.Patients.Add(patient);
-            _context.SaveChanges();
+
+            int affetedRows = _context.SaveChanges();
+            return affetedRows > 0;
         }
 
-        public void Update(Patient patient)
+        public bool Update(Patient patient)
         {
-            _context.Patients.Update(patient);
-            _context.SaveChanges();
+            var patientToUpdate = _context.Patients.FirstOrDefault(x => x.Id == patient.Id);
+            if (patientToUpdate is null)
+            {
+                return false;
+            }
+            _context.Entry(patientToUpdate).CurrentValues.SetValues(patient);
+
+            int affectedRows = _context.SaveChanges();
+
+            return affectedRows > 0;
         }
 
-        public void Delete(Patient patient)
+        public bool Delete(Patient patient)
         {
-            _context.Patients.Remove(patient);
-            _context.SaveChanges();
+            var patientToDelete = _context.Patients.FirstOrDefault(x => x.Id == patient.Id);
+            if (patientToDelete is null)
+            {
+                return false;
+            }
+
+            _context.Remove(patientToDelete);
+
+            int affectedRows = _context.SaveChanges();
+            return affectedRows > 0;
         }
     }
 }

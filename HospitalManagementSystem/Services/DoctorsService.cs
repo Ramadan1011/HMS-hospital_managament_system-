@@ -39,11 +39,13 @@ namespace HospitalManagementSystem.Services
 		public Doctor? GetDoctorById(int id)
 			=> _context.Doctors.FirstOrDefault(x => x.Id == id);
 
-		public void Create(Doctor doctor)
+		public bool Create(Doctor doctor)
 		{
-			_context.Doctors.Add(doctor);
-			_context.SaveChanges();
-		}
+            _context.Doctors.Add(doctor);
+
+            int affectedRows = _context.SaveChanges();
+            return affectedRows > 0;
+        }
 
 		public bool UpdateDoctor(Doctor doctor)
 		{
@@ -60,8 +62,16 @@ namespace HospitalManagementSystem.Services
 
 		public bool DeleteDoctor(Doctor doctor)
 		{
-			_context.Doctors.Remove(doctor);
-			_context.SaveChanges();
-		}
+            var doctorToDelete = _context.Doctors.FirstOrDefault(x => x.Id == doctor.Id);
+            if (doctorToDelete == null)
+            {
+                return false;
+            }
+
+            _context.Doctors.Remove(doctorToDelete);
+
+            int affectedRows = _context.SaveChanges();
+            return affectedRows > 0;
+        }
 	}
 }
