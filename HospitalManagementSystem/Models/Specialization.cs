@@ -12,5 +12,12 @@
         {
             Doctors = new List<DoctorSpecialization>();
         }
+
+        public Specialization(int id, string name, string description)
+        {
+            Id = id;
+            Name = name;
+            Description = description;
+        }
     }
 }

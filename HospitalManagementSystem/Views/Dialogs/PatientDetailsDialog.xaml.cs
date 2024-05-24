@@ -13,7 +13,7 @@ namespace HospitalManagementSystem.Views.Dialogs
         {
             InitializeComponent();
 
-            DataContext = new PatientDetailsViewModel(patient);
+            DataContext = new PatientDetailsDialog(patient);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
