@@ -18,6 +18,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="0.5*" />
             <RowDefinition Height="0.5*" />
+            <RowDefinition Height="0.5*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -33,72 +34,81 @@
             Grid.Row="0"
             Grid.ColumnSpan="6"
             HorizontalAlignment="Center"
-            Content="Enter Patient Details"
+            Content="Patient Details"
             FontSize="24"
             FontWeight="SemiBold" />
 
         <TextBox
+            x:Name="IdInput"
             Grid.Row="1"
             Grid.ColumnSpan="3"
             Height="40"
             Margin="20,0"
             Padding="10"
-            md:HintAssist.Hint="Enter First Name"
-            Style="{StaticResource MaterialDesignOutlinedTextBox}"
-            Text="{Binding FirstName}" />
+            md:HintAssist.Hint="id"
+            Style="{StaticResource MaterialDesignOutlinedTextBox}" />
         <TextBox
+            x:Name="FirstNameInput"
+            Grid.Row="2"
+            Grid.ColumnSpan="3"
+            Height="40"
+            Margin="20,0"
+            Padding="10"
+            md:HintAssist.Hint="Enter First Name"
+            Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+        <TextBox
+            x:Name="LastNameInput"
+            Grid.Row="3"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Height="40"
+            Margin="20,0"
+            Padding="10"
+            md:HintAssist.Hint="Enter Last Name"
+            Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+        <TextBox
+            x:Name="PhoneNumberInput"
+            Grid.Row="2"
+            Grid.Column="3"
+            Grid.ColumnSpan="3"
+            Height="40"
+            Margin="20,0"
+            Padding="10"
+            md:HintAssist.Hint="Enter Phone Number"
+            Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+        <DatePicker
+            x:Name="DateTimeInput"
             Grid.Row="1"
             Grid.Column="3"
             Grid.ColumnSpan="3"
             Height="40"
             Margin="20,0"
             Padding="10"
-            md:HintAssist.Hint="Enter Last Name"
-            Style="{StaticResource MaterialDesignOutlinedTextBox}"
-            Text="{Binding LastName}" />
-
-        <TextBox
-            Grid.Row="2"
-            Grid.Column="2"
-            Grid.ColumnSpan="2"
-            Height="40"
-            Margin="20,0"
-            Padding="10"
-            md:HintAssist.Hint="Enter Phone Number"
-            Style="{StaticResource MaterialDesignOutlinedTextBox}"
-            Text="{Binding PhoneNumber}" />
-        <DatePicker
-            Grid.Row="2"
-            Grid.Column="0"
-            Grid.ColumnSpan="2"
-            Height="40"
-            Margin="20,0"
-            Padding="10"
             md:HintAssist.Hint="Choose birthdate"
-            Style="{StaticResource MaterialDesignOutlinedDatePicker}"
-            Text="{Binding Birthdate}" />
+            Style="{StaticResource MaterialDesignOutlinedDatePicker}" />
         <ComboBox
-            Grid.Row="2"
-            Grid.Column="4"
-            Grid.ColumnSpan="2"
+            x:Name="GenderCombobox"
+            Grid.Row="3"
+            Grid.Column="3"
+            Grid.ColumnSpan="3"
             Height="40"
             Margin="20,0"
             Padding="10"
-            md:HintAssist.Hint="Select Gender"
-            SelectedItem="{Binding SelectedGender}"
+            md:HintAssist.Hint="Select a gender"
             Style="{StaticResource MaterialDesignOutlinedComboBox}" />
 
         <Button
-            Grid.Row="3"
+            Grid.Row="4"
             Grid.Column="0"
             Grid.ColumnSpan="3"
             Width="200"
             Height="35"
             Margin="20,0"
+            Click="Cancel_Clicked"
             Content="Cancel"
             Style="{StaticResource MaterialDesignPaperDarkButton}" />
         <Button
-            Grid.Row="3"
+            Grid.Row="4"
             Grid.Column="3"
             Grid.ColumnSpan="3"
             Width="200"
@@ -106,7 +116,7 @@
             Margin="20,0"
             Background="#2ec96f"
             BorderBrush="#2ec96f"
-            Command="{Binding SaveCommand}"
+            Click="Save_Clicked"
             Content="Save" />
     </Grid>
 </Window>

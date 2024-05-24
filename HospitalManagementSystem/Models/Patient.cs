@@ -18,6 +18,16 @@ namespace HospitalManagementSystem.Models
             Appointments = new List<Appointment>();
         }
 
+        public Patient(int id, string firstName, string lastName, string phoneNumber, DateOnly birthdate, Gender gender)
+        {
+            Id = id;
+            FirstName = firstName;
+            LastName = lastName;
+            PhoneNumber = phoneNumber;
+            Birthdate = birthdate;
+            Gender = gender;
+        }
+
         public override string ToString()
         {
             return $"[{Id}] {FirstName} {LastName}";
