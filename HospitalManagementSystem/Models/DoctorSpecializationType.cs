@@ -1,21 +1,20 @@
-﻿namespace HospitalManagementSystem.Models
+﻿namespace HospitalManagementSystem.Models;
+
+public enum DoctorSpecializationType
 {
-    public enum DoctorSpecializationType
-    {
-        Dermatology,
-        Oncology,
-        Radiologist,
-        Cardiologist,
-        Gastroenterology,
-        Neurosurgery,
-        Psychiatrist,
-        Surgery,
-        Anesthesiology,
-        Ophthalmology,
-        Pathologist,
-        Neurologist,
-        Pediatrics,
-        Physicaltherapist,
-        Urology
-    }
+    Dermatology,
+    Oncology,
+    Radiologist,
+    Cardiologist,
+    Gastroenterology,
+    Neurosurgery,
+    Psychiatrist,
+    Surgery,
+    Anesthesiology,
+    Ophthalmology,
+    Pathologist,
+    Neurologist,
+    Pediatrics,
+    Physicaltherapist,
+    Urology
 }
