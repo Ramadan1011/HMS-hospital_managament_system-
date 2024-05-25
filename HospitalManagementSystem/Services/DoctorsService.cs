@@ -2,53 +2,53 @@
 using HospitalManagementSystem.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace HospitalManagementSystem.Services
+namespace HospitalManagementSystem.Services;
+
+public class DoctorsService
 {
-	public class DoctorsService
+	private readonly HospitalDbContext _context;
+
+	public DoctorsService()
 	{
-		private readonly HospitalDbContext _context;
+		_context = new HospitalDbContext();
+	}
 
-		public DoctorsService()
+	public List<Doctor> GetDoctors(string search = "", int? specializationId = null)
+	{
+		var query = _context.Doctors
+			.AsNoTracking()
+			.AsQueryable();
+
+		if (!string.IsNullOrEmpty(search))
 		{
-			_context = new HospitalDbContext();
+			query = query.Where(x => x.FirstName.Contains(search) ||
+				x.LastName.Contains(search) ||
+				x.PhoneNumber.Contains(search));
 		}
 
-		public List<Doctor> GetDoctors(string search = "", int? specializationId = null)
+		if (specializationId is not null)
 		{
-			var query = _context.Doctors
-				.AsNoTracking()
-				.AsQueryable();
-
-			if (!string.IsNullOrEmpty(search))
-			{
-				query = query.Where(x => x.FirstName.Contains(search) ||
-					x.LastName.Contains(search) ||
-					x.PhoneNumber.Contains(search));
-			}
-
-			if (specializationId is not null)
-			{
-				query = query.Where(x => x.Specializations.Any(s => s.SpecializationId == specializationId));
-			}
-
-			var doctors = query.ToList();
-
-			return doctors;
+			query = query.Where(x => x.Specializations.Any(s => s.SpecializationId == specializationId));
 		}
 
-		public Doctor? GetDoctorById(int id)
-			=> _context.Doctors.FirstOrDefault(x => x.Id == id);
+		var doctors = query.ToList();
 
-		public bool Create(Doctor doctor)
-		{
+		return doctors;
+	}
+
+	public Doctor? GetDoctorById(int id)
+		=> _context.Doctors.FirstOrDefault(x => x.Id == id);
+
+	public bool Create(Doctor doctor)
+	{
             _context.Doctors.Add(doctor);
 
             int affectedRows = _context.SaveChanges();
             return affectedRows > 0;
         }
 
-		public bool UpdateDoctor(Doctor doctor)
-		{
+	public bool UpdateDoctor(Doctor doctor)
+	{
             var doctorToUpdate = _context.Doctors.FirstOrDefault(x => x.Id == doctor.Id);
             if (doctorToUpdate == null)
             {
@@ -60,8 +60,8 @@ namespace HospitalManagementSystem.Services
             return affectedRows > 0;
         }
 
-		public bool DeleteDoctor(Doctor doctor)
-		{
+	public bool DeleteDoctor(Doctor doctor)
+	{
             var doctorToDelete = _context.Doctors.FirstOrDefault(x => x.Id == doctor.Id);
             if (doctorToDelete == null)
             {
@@ -73,5 +73,4 @@ namespace HospitalManagementSystem.Services
             int affectedRows = _context.SaveChanges();
             return affectedRows > 0;
         }
-	}
 }

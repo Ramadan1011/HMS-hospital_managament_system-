@@ -1,9 +1,8 @@
-﻿namespace HospitalManagementSystem.Models
+﻿namespace HospitalManagementSystem.Models;
+
+public enum AppointmentStatus
 {
-    public enum AppointmentStatus
-    {
-        Pending,
-        Cancelled,
-        Closed
-    }
+    Pending,
+    Cancelled,
+    Closed
 }

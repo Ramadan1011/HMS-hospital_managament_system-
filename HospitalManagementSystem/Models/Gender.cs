@@ -1,8 +1,7 @@
-﻿namespace HospitalManagementSystem.Models
+﻿namespace HospitalManagementSystem.Models;
+
+public enum Gender
 {
-    public enum Gender
-    {
-        Male,
-        Female
-    }
+    Male,
+    Female
 }
