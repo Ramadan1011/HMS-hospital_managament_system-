@@ -26,6 +26,6 @@ public class Doctor
 
     public override string ToString()
     {
-        return $"[{Id}] {FirstName} {LastName}";
+        return $"{FirstName} {LastName} [{Id}]";
     }
 }

@@ -44,7 +44,9 @@
             Padding="10.5"
             md:HintAssist.Hint="Id"
             FontSize="25"
-            Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+            Style="{StaticResource MaterialDesignOutlinedTextBox}" 
+            Text="{Binding Id}"
+            IsEnabled="False"/>
         <TextBox
             x:Name="FirstNameInput"
             Grid.Row="2"
@@ -54,7 +56,8 @@
             Padding="10.5"
             md:HintAssist.Hint="Enter First Name"
             FontSize="25"
-            Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+            Style="{StaticResource MaterialDesignOutlinedTextBox}" 
+            Text="{Binding FirstName}"/>
         <TextBox
             x:Name="LastNameInput"
             Grid.Row="3"
@@ -64,7 +67,8 @@
             Padding="10"
             md:HintAssist.Hint="Enter Last Name"
             FontSize="25"
-            Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+            Style="{StaticResource MaterialDesignOutlinedTextBox}" 
+            Text="{Binding LastName}"/>
         <TextBox
             x:Name="PhoneNumberInput"
             Grid.Row="4"
@@ -74,7 +78,8 @@
             Padding="10"
             md:HintAssist.Hint="Enter Phone Number"
             FontSize="25"
-            Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+            Style="{StaticResource MaterialDesignOutlinedTextBox}" 
+            Text="{Binding PhoneNumber}"/>
 
         <Button
             Grid.Row="5"
@@ -96,6 +101,7 @@
             Background="#2ec96f"
             BorderBrush="#2ec96f"
             Click="Save_Clicked"
+            Command="{Binding SaveCommand}"
             Content="Save"
             FontSize="25" />
     </Grid>
