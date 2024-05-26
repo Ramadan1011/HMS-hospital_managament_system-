@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace HospitalManagementSystem.ViewModels.Views;
 
-public class PatientsViewModel : BaseViewModel
+public partial class PatientsViewModel : BaseViewModel
 {
     private readonly PatientsService _patientsService;
 
@@ -79,7 +79,6 @@ public class PatientsViewModel : BaseViewModel
             UpdateEnableState();
         }
     }
-
     private void UpdateEnableState()
     {
         IsFirstEnabled = CurrentPage > 1;
@@ -87,7 +86,6 @@ public class PatientsViewModel : BaseViewModel
         IsNextEnabled = CurrentPage < NumberOfPages;
         IsLastEnabled = CurrentPage < NumberOfPages;
     }
-
     private int _selectedRecord = 15;
     public int SelectedRecord
     {
@@ -99,7 +97,6 @@ public class PatientsViewModel : BaseViewModel
             UpdateRecordCount();
         }
     }
-
     private void UpdateRecordCount(string? search = null)
     {
         NumberOfPages = _patientsService.GetPatients().Count() / Convert.ToInt32(SelectedRecord);
@@ -112,7 +109,6 @@ public class PatientsViewModel : BaseViewModel
         UpdateCollection(ListPatientsRecords.Take(SelectedRecord));
         CurrentPage = 1;
     }
-
     private int _numberOfPages;
     public int NumberOfPages
     {
@@ -124,14 +120,12 @@ public class PatientsViewModel : BaseViewModel
             UpdateEnableState();
         }
     }
-
     private Patient _selectedPatient;
     public Patient SelectedPatient
     {
         get => _selectedPatient;
         set => SetProperty(ref _selectedPatient, value);
     }
-
     public ICommand AddCommand { get; }
     public ICommand ShowDetailsCommand { get; }
     public ICommand EditCommand { get; }
@@ -140,10 +134,8 @@ public class PatientsViewModel : BaseViewModel
     public ICommand PreviousCommand { get; }
     public ICommand NextCommand { get; }
     public ICommand LastCommand { get; }
-
     public ObservableCollection<Patient> Patients { get; }
     public List<Patient> ListPatientsRecords = [];
-
     public PatientsViewModel()
     {
         _patientsService = new();
@@ -161,7 +153,7 @@ public class PatientsViewModel : BaseViewModel
 
         Load();
     }
-    int recordStartFrom = 0;
+    private int recordStartFrom = 0;
     private void LastPage(object obj)
     {
         CurrentPage = NumberOfPages;
@@ -177,9 +169,6 @@ public class PatientsViewModel : BaseViewModel
         UpdateCollection(_patientsService.GetPatients(pageNumber: count - SelectedRecord, pageSize: SelectedRecord));
         UpdateEnableState();
     }
-
-
-
     private void PreviousPage(object obj)
     {
         CurrentPage--;
@@ -195,7 +184,6 @@ public class PatientsViewModel : BaseViewModel
         UpdateCollection(recordsToShow);
         UpdateEnableState();
     }
-
     private void FirstPage(object obj)
     {
         CurrentPage = 1;
@@ -206,11 +194,10 @@ public class PatientsViewModel : BaseViewModel
             UpdateEnableState();
             return;
         }
-        UpdateCollection(_patientsService.GetPatients(pageNumber: 1, pageSize: SelectedRecord));
+        UpdateCollection(_patientsService.GetPatients(pageNumber: 1 , pageSize: SelectedRecord));
 
         UpdateEnableState();
     }
-
     private void NextPage(object arg)
     {
         CurrentPage++;
@@ -227,7 +214,15 @@ public class PatientsViewModel : BaseViewModel
         UpdateCollection(recordsToShow);
         UpdateEnableState();
     }
-
+    private void UpdateCollection(IEnumerable<Patient> enumerable)
+    {
+        Patients.Clear();
+        foreach (var patient in enumerable)
+        {
+            Patients.Add(patient);
+        }
+        NumberOfPages = _patientsService.GetPatientsCount(SearchText) / SelectedRecord;
+    }
     private void Load()
     {
         var patients = _patientsService.GetPatients(SearchText, pageNumber: recordStartFrom, pageSize: SelectedRecord);
@@ -240,17 +235,6 @@ public class PatientsViewModel : BaseViewModel
 
         UpdateRecordCount();
     }
-
-    private void UpdateCollection(IEnumerable<Patient> enumerable)
-    {
-        Patients.Clear();
-        foreach (var patient in enumerable)
-        {
-            Patients.Add(patient);
-        }
-        NumberOfPages = _patientsService.GetPatientsCount(SearchText) / SelectedRecord;
-    }
-
     private void SearchPatients(string searchText)
     {
         ListPatientsRecords = _patientsService.GetPatients(searchText);
@@ -258,13 +242,11 @@ public class PatientsViewModel : BaseViewModel
 
         UpdateRecordCount(searchText);
     }
-
     private void OnAdd()
     {
         var dialog = new PatientDialog();
         dialog.ShowDialog();
     }
-
     private void OnShowDetails()
     {
         if (SelectedPatient is null)
@@ -275,13 +257,11 @@ public class PatientsViewModel : BaseViewModel
         var dialog = new PatientDetailsDialog(SelectedPatient);
         dialog.ShowDialog();
     }
-
     private void OnEdit(Patient patient)
     {
         var dialog = new PatientDialog(patient);
         dialog.ShowDialog();
     }
-
     private void OnDelete(Patient patient)
     {
         var result = MessageBoxExtension.ShowConfirmation($"Are you sure you want to delete: {patient.FirstName} {patient.LastName}?");

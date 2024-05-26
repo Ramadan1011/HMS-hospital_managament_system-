@@ -16,6 +16,10 @@ public class DoctorsService
 	public List<Doctor> GetDoctors(string search = "", int? specializationId = null)
 	{
 		var query = _context.Doctors
+			.Include(x => x.Appointments)
+			.ThenInclude(a => a.Patient)
+			.Include(x => x.Appointments)
+			.ThenInclude(a => a.Visit)
 			.AsNoTracking()
 			.AsQueryable();
 

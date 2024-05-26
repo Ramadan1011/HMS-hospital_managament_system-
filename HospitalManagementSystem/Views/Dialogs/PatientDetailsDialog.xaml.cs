@@ -1,4 +1,5 @@
 ﻿using HospitalManagementSystem.Models;
+using HospitalManagementSystem.ViewModels.Dialogs;
 using System.Windows;
 
 namespace HospitalManagementSystem.Views.Dialogs;
@@ -12,7 +13,7 @@ public partial class PatientDetailsDialog : Window
     {
         InitializeComponent();
 
-        DataContext = new PatientDetailsDialog(patient);
+        DataContext = new PatientDetailsViewModel(patient);
     }
 
     private void Button_Click(object sender, RoutedEventArgs e)

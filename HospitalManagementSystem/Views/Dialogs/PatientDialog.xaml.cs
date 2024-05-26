@@ -1,7 +1,6 @@
 ﻿using HospitalManagementSystem.Helpers;
 using HospitalManagementSystem.Models;
 using HospitalManagementSystem.Services;
-using HospitalManagementSystem.ViewModels.Dialogs;
 using System.Windows;
 
 namespace HospitalManagementSystem.Views.Dialogs;

@@ -21,21 +21,25 @@ public class PatientDetailsViewModel : BaseViewModel
 
     public string FirstName { get; set; }
     public string LastName { get; set; }
+    public DateOnly BirthDate { get; set; }
     public string PhoneNumber { get; set; }
+    public Gender Gender { get; set; }
 
     public ObservableCollection<Appointment> Appointments { get; }
     public ObservableCollection<Visit> Visits { get; }
 
-    public PatientDetailsViewModel(Doctor doctor)
+    public PatientDetailsViewModel(Patient patient)
     {
-        ArgumentNullException.ThrowIfNull(doctor);
+        ArgumentNullException.ThrowIfNull(patient);
 
-        FirstName = doctor.FirstName;
-        LastName = doctor.LastName;
-        PhoneNumber = doctor.PhoneNumber;
+        FirstName = patient.FirstName;
+        LastName = patient.LastName;
+        BirthDate = patient.Birthdate;
+        PhoneNumber = patient.PhoneNumber;
+        Gender = patient.Gender;
 
-        Appointments = new ObservableCollection<Appointment>(doctor.Appointments);
-        var visits = doctor.Appointments
+        Appointments = new ObservableCollection<Appointment>(patient.Appointments);
+        var visits = patient.Appointments
             .Where(x => x.Visit != null)
             .Select(x => x.Visit)
             .ToList();
