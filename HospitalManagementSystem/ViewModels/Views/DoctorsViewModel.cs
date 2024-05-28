@@ -107,7 +107,7 @@ public class DoctorsViewModel : BaseViewModel
             return;
         }
 
-        var dialog = new DoctorsDetailsDialog(SelectedDoctor);
+        var dialog = new DoctorDetailsDialog(SelectedDoctor);
         dialog.ShowDialog();
     }
 
