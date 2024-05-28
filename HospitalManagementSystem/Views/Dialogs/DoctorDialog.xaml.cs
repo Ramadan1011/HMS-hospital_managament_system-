@@ -2,6 +2,7 @@
 using HospitalManagementSystem.Models;
 using HospitalManagementSystem.Services;
 using HospitalManagementSystem.ViewModels.Dialogs;
+using System.Drawing.Drawing2D;
 using System.Windows;
 
 namespace HospitalManagementSystem.Views.Dialogs;
@@ -11,13 +12,15 @@ namespace HospitalManagementSystem.Views.Dialogs;
 /// </summary>
 public partial class DoctorsDialog : Window
 {
+    private readonly DoctorsService _doctorsService;
+    private readonly bool IsEditingMode;
     public DoctorsDialog()
     {
         InitializeComponent();
 
-        DataContext = new DoctorDialogViewModel();
-
         Title = "Add Doctor";
+
+        _doctorsService = new DoctorsService();
     }
 
     public DoctorsDialog(Doctor doctor)
@@ -25,9 +28,9 @@ public partial class DoctorsDialog : Window
     {
         Title = "Edit Doctor";
 
-        PopulateData(doctor);
+        IsEditingMode = true;
 
-        DataContext = new DoctorDialogViewModel(doctor);
+        PopulateData(doctor);
     }
 
     private void PopulateData(Doctor doctor)
@@ -40,6 +43,40 @@ public partial class DoctorsDialog : Window
 
     private void Save_Clicked(object sender, RoutedEventArgs e)
     {
+        int id = 0;
+        string firstName = FirstNameInput.Text;
+        string lastName = LastNameInput.Text;
+        string phoneNumber = PhoneNumberInput.Text;
+
+        var newDoctor = new Doctor();
+
+        bool isSuccess;
+
+        if (IsEditingMode)
+        {
+            isSuccess = _doctorsService.UpdateDoctor(newDoctor);
+            if (isSuccess)
+            {
+                MessageBoxExtension.ShowSuccess($"{firstName} {lastName} was updated successfully.");
+                Close();
+                return;
+            }
+
+            MessageBoxExtension.ShowError("Something went wrong to update.");
+        }
+        else
+        {
+            isSuccess = _doctorsService.Create(newDoctor);
+            if (isSuccess)
+            {
+                MessageBoxExtension.ShowSuccess($"{firstName} {lastName} was created successfully.");
+                Close();
+                return;
+            }
+
+            MessageBoxExtension.ShowError("Something went wrong to create");
+        }
+
         Close();
     }
 

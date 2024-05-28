@@ -50,13 +50,7 @@ public partial class PatientDialog : Window
 
     private void Save_Clicked(object sender, RoutedEventArgs e)
     {
-        bool isInt;
-        int id = -1;
-        isInt = int.TryParse(IdInput.Text, out id);
-        if (!isInt)
-        {
-
-        }
+        int id = 0;
         string firstName = FirstNameInput.Text;
         string lastName = LastNameInput.Text;
         string phoneNumber = PhoneNumberInput.Text;
