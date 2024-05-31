@@ -45,27 +45,31 @@
             Height="40"
             Margin="20,0"
             Padding="10"
-            md:HintAssist.Hint="id"
-            Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+            IsEnabled="False"
+            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+            Text="{Binding Id}"
+            Visibility="Hidden" />
         <TextBox
             x:Name="FirstNameInput"
-            Grid.Row="2"
+            Grid.Row="1"
             Grid.ColumnSpan="3"
             Height="40"
             Margin="20,0"
             Padding="10"
             md:HintAssist.Hint="Enter First Name"
-            Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+            Text="{Binding FirstName}" />
         <TextBox
             x:Name="LastNameInput"
-            Grid.Row="3"
-            Grid.Column="0"
+            Grid.Row="1"
+            Grid.Column="3"
             Grid.ColumnSpan="3"
             Height="40"
             Margin="20,0"
             Padding="10"
             md:HintAssist.Hint="Enter Last Name"
-            Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+            Text="{Binding LastName}" />
         <TextBox
             x:Name="PhoneNumberInput"
             Grid.Row="2"
@@ -75,27 +79,40 @@
             Margin="20,0"
             Padding="10"
             md:HintAssist.Hint="Enter Phone Number"
-            Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+            Text="{Binding PhoneNumber}" />
         <DatePicker
             x:Name="DateTimeInput"
-            Grid.Row="1"
-            Grid.Column="3"
+            Grid.Row="2"
+            Grid.Column="0"
             Grid.ColumnSpan="3"
             Height="40"
             Margin="20,0"
             Padding="10"
             md:HintAssist.Hint="Choose birthdate"
+            SelectedDate="{Binding DateTime}"
             Style="{StaticResource MaterialDesignOutlinedDatePicker}" />
-        <ComboBox
-            x:Name="GenderCombobox"
+        <ListBox
+            x:Name="RadioButtonGroupChoiceChipPrimary"
             Grid.Row="3"
-            Grid.Column="3"
-            Grid.ColumnSpan="3"
-            Height="40"
-            Margin="20,0"
-            Padding="10"
-            md:HintAssist.Hint="Select a gender"
-            Style="{StaticResource MaterialDesignOutlinedComboBox}" />
+            Grid.Column="1"
+            Grid.ColumnSpan="4"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Style="{StaticResource MaterialDesignChoiceChipPrimaryListBox}">
+            <ListBoxItem Margin="15" IsSelected="{Binding IsMaleSelected}">
+                <StackPanel Orientation="Horizontal">
+                    <md:PackIcon Kind="HumanMale"/>
+                    <Label Content="Male" />
+                </StackPanel>
+            </ListBoxItem>
+            <ListBoxItem Margin="15" IsSelected="{Binding Path=!IsMaleSelected}">
+                <StackPanel Orientation="Horizontal">
+                    <md:PackIcon Kind="HumanFemale" />
+                    <Label Content="Female" />
+                </StackPanel>
+            </ListBoxItem>
+        </ListBox>
 
         <Button
             Grid.Row="4"
@@ -116,7 +133,7 @@
             Margin="20,0"
             Background="#2ec96f"
             BorderBrush="#2ec96f"
-            Click="Save_Clicked"
+            Command="{Binding SaveCommand}"
             Content="Save" />
     </Grid>
 </Window>

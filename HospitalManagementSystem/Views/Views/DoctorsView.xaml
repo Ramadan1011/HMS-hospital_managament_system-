@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:local="clr-namespace:HospitalManagementSystem.Views"
     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
     mc:Ignorable="d">
     <Grid Background="Gray">
@@ -80,6 +79,7 @@
                 <DataGrid.InputBindings>
                     <MouseBinding Command="{Binding ShowDetailsCommand}" Gesture="LeftDoubleClick" />
                 </DataGrid.InputBindings>
+                
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Command="{Binding EditCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}">

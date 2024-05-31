@@ -259,8 +259,8 @@ public partial class PatientsViewModel : BaseViewModel
     }
     private void OnEdit(Patient patient)
     {
-        var dialog = new PatientDialog(patient);
-        dialog.ShowDialog();
+        //var dialog = new PatientDialog(patient);
+        //dialog.ShowDialog();
     }
     private void OnDelete(Patient patient)
     {

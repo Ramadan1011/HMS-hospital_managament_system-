@@ -27,6 +27,7 @@ public class AppointmentsViewModel : BaseViewModel
     }
     public ICommand DeleteCommand { get; }
 
+
     private List<Appointment> appointmentsList;
     public ObservableCollection<Appointment> Appointments { get; }
     public AppointmentsViewModel()

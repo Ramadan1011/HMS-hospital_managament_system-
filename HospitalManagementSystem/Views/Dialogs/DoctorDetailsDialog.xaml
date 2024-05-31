@@ -75,7 +75,6 @@
                             AutoGenerateColumns="False"
                             CanUserResizeColumns="False"
                             CanUserResizeRows="False"
-                            AlternatingRowBackground="LightGray"
                             IsReadOnly="True"
                             ItemsSource="{Binding Appointments}">
                             <DataGrid.Columns>
@@ -98,7 +97,7 @@
                                 <DataGridTextColumn
                                     Width="*"
                                     Binding="{Binding Patient}"
-                                    Header="Patient" />
+                                    Header="Doctor" />
                                 <DataGridTemplateColumn Header="Comments">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
@@ -127,7 +126,6 @@
                             Margin="50"
                             AutoGenerateColumns="False"
                             CanUserResizeColumns="False"
-                            AlternatingRowBackground="LightGray"
                             CanUserResizeRows="False"
                             IsReadOnly="True"
                             ItemsSource="{Binding Visits}">
@@ -151,7 +149,7 @@
                                 <DataGridTextColumn
                                     Width="2*"
                                     Binding="{Binding Appointment.Patient}"
-                                    Header="Patient" />
+                                    Header="Doctor" />
                                 <DataGridTemplateColumn Width="3*" Header="Comments">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>

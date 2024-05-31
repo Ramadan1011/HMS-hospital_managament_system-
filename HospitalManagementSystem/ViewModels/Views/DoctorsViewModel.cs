@@ -31,7 +31,6 @@ public class DoctorsViewModel : BaseViewModel
             SetProperty(ref _searchText, value);
             FilterDoctors();
         }
-
     }
 
 
@@ -102,11 +101,6 @@ public class DoctorsViewModel : BaseViewModel
 
     private void OnShowDetails()
     {
-        if (SelectedDoctor is null)
-        {
-            return;
-        }
-
         var dialog = new DoctorDetailsDialog(SelectedDoctor);
         dialog.ShowDialog();
     }

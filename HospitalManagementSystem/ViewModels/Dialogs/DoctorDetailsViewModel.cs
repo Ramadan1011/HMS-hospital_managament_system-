@@ -26,17 +26,17 @@ public class DoctorDetailsViewModel : BaseViewModel
     public ObservableCollection<Appointment> Appointments { get; }
     public ObservableCollection<Visit> Visits { get; }
 
-    public DoctorDetailsViewModel(Doctor Doctor)
+    public DoctorDetailsViewModel(Doctor doctor)
     {
-        ArgumentNullException.ThrowIfNull(Doctor);
+        ArgumentNullException.ThrowIfNull(doctor);
 
-        FirstName = Doctor.FirstName;
-        LastName = Doctor.LastName;
-        PhoneNumber = Doctor.PhoneNumber;
+        FirstName = doctor.FirstName;
+        LastName = doctor.LastName;
+        PhoneNumber = doctor.PhoneNumber;
 
-        Appointments = new ObservableCollection<Appointment>(Doctor.Appointments);
+        Appointments = new ObservableCollection<Appointment>(doctor.Appointments);
 
-        var visits = Doctor.Appointments
+        var visits = doctor.Appointments
         .Select(x => x.Visit)
             .ToList();
         Visits = new ObservableCollection<Visit>(visits);
