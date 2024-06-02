@@ -1,20 +1,18 @@
 ﻿using HospitalManagementSystem.Helpers;
 using HospitalManagementSystem.Models;
 using HospitalManagementSystem.Services;
-using MvvmHelpers;
 using MvvmHelpers.Commands;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
 
 namespace HospitalManagementSystem.ViewModels.Dialogs;
 
-public class PatientDialogViewModel : BaseViewModel, INotifyPropertyChanged
+public class DoctorDialogViewModel
 {
-    private readonly PatientsService _patientsService;
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string PhoneNumber { get; set; }
-    public DateTime? DateTime { get; set; }
 
     private int _selectedId;
     public int SelectedId
@@ -56,73 +54,41 @@ public class PatientDialogViewModel : BaseViewModel, INotifyPropertyChanged
             OnPropertyChanged(nameof(SelectedPhoneNumber));
         }
     }
-    private string _selectedDateTime;
-    public string SelectedDateTime
-    {
-        get => _selectedDateTime;
-        set
-        {
-            _selectedDateTime = value;
-            OnPropertyChanged(nameof(SelectedDateTime));
-        }
-    }
 
-
-
-    private string _selectedGender;
-    public string SelectedGender
-    {
-        get => _selectedGender;
-        set
-        {
-            _selectedGender = value;
-            OnPropertyChanged(nameof(SelectedGender));
-        }
-    }
-
-    private bool _isMaleSelected;
-    public bool IsMaleSelected
-    {
-        get => _isMaleSelected;
-        set => SetProperty(ref _isMaleSelected, value);
-    }
-
+    private readonly DoctorsService _doctorsService;
+    public ObservableCollection<Specialization> Specializations { get; }
     public ICommand SaveCommand { get; }
 
-    public PatientDialogViewModel()
+    public DoctorDialogViewModel()
     {
         SaveCommand = new Command(OnSaveToCreate);
 
-        _patientsService = new PatientsService();
+        _doctorsService = new();
     }
 
 
-    public PatientDialogViewModel(Patient patient)
+    public DoctorDialogViewModel(Doctor doctor)
     {
-        PopulateDate(patient);
-
-        IsMaleSelected = patient.Gender == Gender.Male;
+        PopulateDate(doctor);
 
         SaveCommand = new Command(OnSaveToUpdate);
 
-        _patientsService = new PatientsService();
+        _doctorsService = new();
     }
 
     private void OnSaveToUpdate()
     {
-        var newPatient = new Patient()
+        var newPatient = new Doctor()
         {
             Id = SelectedId,
             FirstName = SelectedFirstName,
             LastName = SelectedLastName,
             PhoneNumber = SelectedPhoneNumber,
-            Birthdate = DateOnly.FromDateTime(Convert.ToDateTime(SelectedDateTime)),
-            Gender = IsMaleSelected ? Gender.Male : Gender.Female,
         };
 
         bool isSuccess;
 
-        isSuccess = _patientsService.Update(newPatient);
+        isSuccess = _doctorsService.UpdateDoctor(newPatient);
 
         if (isSuccess)
         {
@@ -136,18 +102,16 @@ public class PatientDialogViewModel : BaseViewModel, INotifyPropertyChanged
 
     private void OnSaveToCreate()
     {
-        var newPatient = new Patient()
+        var newDoctor = new Doctor()
         {
             FirstName = this.FirstName,
             LastName = this.LastName,
             PhoneNumber = this.PhoneNumber,
-            Birthdate = DateOnly.FromDateTime((DateTime)this.DateTime),
-            Gender = IsMaleSelected ? Gender.Male : Gender.Female,
         };
 
         bool isSuccess;
 
-        isSuccess = _patientsService.Create(newPatient);
+        isSuccess = _doctorsService.Create(newDoctor);
 
         if (isSuccess)
         {
@@ -159,14 +123,12 @@ public class PatientDialogViewModel : BaseViewModel, INotifyPropertyChanged
         }
     }
 
-    private void PopulateDate(Patient patient)
+    private void PopulateDate(Doctor doctor)
     {
-        SelectedId = patient.Id;
-        SelectedFirstName = patient.FirstName;
-        SelectedLastName = patient.LastName;
-        SelectedPhoneNumber = patient.PhoneNumber;
-        SelectedDateTime = patient.Birthdate.ToString();
-        IsMaleSelected = patient.Gender == Gender.Male;
+        SelectedId = doctor.Id;
+        SelectedFirstName = doctor.FirstName;
+        SelectedLastName = doctor.LastName;
+        SelectedPhoneNumber = doctor.PhoneNumber;
     }
 
     public event PropertyChangedEventHandler PropertyChanged;

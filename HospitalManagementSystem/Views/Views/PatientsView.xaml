@@ -90,7 +90,7 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn
                         Width="150"
-                        Binding="{Binding Id}"
+                        Binding="{Binding Id}"  
                         Header="Patient Id" />
                     <DataGridTextColumn
                         Width="150"

@@ -3,7 +3,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:HospitalManagementSystem.Views.Dialogs"
+    xmlns:local="clr-namespace:HospitalManagementSystem.ViewModels.Dialogs"
+    xmlns:local1="clr-namespace:HospitalManagementSystem.Helpers.Converters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
     Title="Title"
@@ -13,6 +14,12 @@
     Style="{StaticResource MaterialDesignWindow}"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
+    <Window.DataContext>
+        <local:PatientDialogViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <local1:BooleanNegationConverter x:Key="BooleanNegationConverter"/>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -39,7 +46,6 @@
             FontWeight="SemiBold" />
 
         <TextBox
-            x:Name="IdInput"
             Grid.Row="1"
             Grid.ColumnSpan="3"
             Height="40"
@@ -47,10 +53,9 @@
             Padding="10"
             IsEnabled="False"
             Style="{StaticResource MaterialDesignOutlinedTextBox}"
-            Text="{Binding Id}"
+            Text="{Binding SelectedId}"
             Visibility="Hidden" />
         <TextBox
-            x:Name="FirstNameInput"
             Grid.Row="1"
             Grid.ColumnSpan="3"
             Height="40"
@@ -58,9 +63,8 @@
             Padding="10"
             md:HintAssist.Hint="Enter First Name"
             Style="{StaticResource MaterialDesignOutlinedTextBox}"
-            Text="{Binding FirstName}" />
+            Text="{Binding SelectedFirstName}" />
         <TextBox
-            x:Name="LastNameInput"
             Grid.Row="1"
             Grid.Column="3"
             Grid.ColumnSpan="3"
@@ -69,9 +73,8 @@
             Padding="10"
             md:HintAssist.Hint="Enter Last Name"
             Style="{StaticResource MaterialDesignOutlinedTextBox}"
-            Text="{Binding LastName}" />
+            Text="{Binding SelectedLastName}" />
         <TextBox
-            x:Name="PhoneNumberInput"
             Grid.Row="2"
             Grid.Column="3"
             Grid.ColumnSpan="3"
@@ -80,9 +83,8 @@
             Padding="10"
             md:HintAssist.Hint="Enter Phone Number"
             Style="{StaticResource MaterialDesignOutlinedTextBox}"
-            Text="{Binding PhoneNumber}" />
+            Text="{Binding SelectedPhoneNumber}" />
         <DatePicker
-            x:Name="DateTimeInput"
             Grid.Row="2"
             Grid.Column="0"
             Grid.ColumnSpan="3"
@@ -91,9 +93,11 @@
             Padding="10"
             md:HintAssist.Hint="Choose birthdate"
             SelectedDate="{Binding DateTime}"
+            Text="{Binding SelectedDateTime}"
             Style="{StaticResource MaterialDesignOutlinedDatePicker}" />
         <ListBox
             x:Name="RadioButtonGroupChoiceChipPrimary"
+            SelectedItem="{Binding SelectedGender}"
             Grid.Row="3"
             Grid.Column="1"
             Grid.ColumnSpan="4"
@@ -106,7 +110,7 @@
                     <Label Content="Male" />
                 </StackPanel>
             </ListBoxItem>
-            <ListBoxItem Margin="15" IsSelected="{Binding Path=!IsMaleSelected}">
+            <ListBoxItem Margin="15" IsSelected="{Binding IsMaleSelected, Converter={StaticResource BooleanNegationConverter}}">
                 <StackPanel Orientation="Horizontal">
                     <md:PackIcon Kind="HumanFemale" />
                     <Label Content="Female" />
@@ -133,6 +137,7 @@
             Margin="20,0"
             Background="#2ec96f"
             BorderBrush="#2ec96f"
+            Click="Save_Clicked"
             Command="{Binding SaveCommand}"
             Content="Save" />
     </Grid>

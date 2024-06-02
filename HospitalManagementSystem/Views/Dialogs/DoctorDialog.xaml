@@ -7,7 +7,7 @@
     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
     Title="Title"
     Width="650"
-    Height="650"
+    Height="750"
     ResizeMode="NoResize"
     Style="{StaticResource MaterialDesignWindow}"
     WindowStartupLocation="CenterScreen"
@@ -44,42 +44,60 @@
             Padding="10.5"
             md:HintAssist.Hint="Id"
             FontSize="25"
-            Style="{StaticResource MaterialDesignOutlinedTextBox}" 
+            IsEnabled="False"
+            Style="{StaticResource MaterialDesignOutlinedTextBox}"
             Text="{Binding Id}"
-            IsEnabled="False"/>
+            Visibility="Hidden" />
         <TextBox
             x:Name="FirstNameInput"
-            Grid.Row="2"
+            Grid.Row="1"
             Grid.ColumnSpan="3"
             Height="55"
             Margin="20,0"
             Padding="10.5"
             md:HintAssist.Hint="Enter First Name"
             FontSize="25"
-            Style="{StaticResource MaterialDesignOutlinedTextBox}" 
-            Text="{Binding FirstName}"/>
+            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+            Text="{Binding FirstName}" />
         <TextBox
             x:Name="LastNameInput"
-            Grid.Row="3"
+            Grid.Row="2"
             Grid.ColumnSpan="3"
             Height="55"
             Margin="20,0"
             Padding="10"
             md:HintAssist.Hint="Enter Last Name"
             FontSize="25"
-            Style="{StaticResource MaterialDesignOutlinedTextBox}" 
-            Text="{Binding LastName}"/>
+            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+            Text="{Binding LastName}" />
         <TextBox
             x:Name="PhoneNumberInput"
-            Grid.Row="4"
+            Grid.Row="3"
             Grid.ColumnSpan="2"
             Height="55"
             Margin="20,0"
             Padding="10"
             md:HintAssist.Hint="Enter Phone Number"
             FontSize="25"
-            Style="{StaticResource MaterialDesignOutlinedTextBox}" 
-            Text="{Binding PhoneNumber}"/>
+            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+            Text="{Binding PhoneNumber}" />
+        <ComboBox
+            Grid.Row="4"
+            Grid.ColumnSpan="2"
+            Width="280"
+            Height="50"
+            Margin="20,0"
+            HorizontalAlignment="Center"
+            md:HintAssist.Hint="Specialization"
+            Padding="1 0 0 5"
+            FontSize="20"
+            md:TextFieldAssist.HasClearButton="True"
+            Background="LightGoldenrodYellow"
+            DisplayMemberPath="Name"
+            IsEnabled="True"
+            ItemsSource="{Binding Specializations}"
+            SelectedItem="{Binding SelectedSpecialization}"
+            Style="{StaticResource MaterialDesignFilledComboBox}" />
 
         <Button
             Grid.Row="5"

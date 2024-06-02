@@ -6,7 +6,7 @@ public class Patient
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string PhoneNumber { get; set; }
-    public DateOnly Birthdate { get; set; }
+    public DateOnly? Birthdate { get; set; }
     public Gender Gender { get; set; }
 
     public virtual ICollection<Appointment> Appointments { get; set; }

@@ -117,7 +117,7 @@ namespace HospitalManagementSystem.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateOnly>("Birthdate")
+                    b.Property<DateOnly>("DateTime")
                         .HasColumnType("date");
 
                     b.Property<string>("FirstName")

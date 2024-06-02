@@ -226,10 +226,12 @@ public partial class PatientsViewModel : BaseViewModel
     private void Load()
     {
         var patients = _patientsService.GetPatients(SearchText, pageNumber: recordStartFrom, pageSize: SelectedRecord);
+        Patients.Clear();
 
         foreach (var patient in patients)
         {
             ListPatientsRecords.Add(patient);
+            Patients.Add(patient);
         }
         UpdateCollection(ListPatientsRecords);
 
@@ -246,6 +248,8 @@ public partial class PatientsViewModel : BaseViewModel
     {
         var dialog = new PatientDialog();
         dialog.ShowDialog();
+
+        Load();
     }
     private void OnShowDetails()
     {
@@ -259,8 +263,9 @@ public partial class PatientsViewModel : BaseViewModel
     }
     private void OnEdit(Patient patient)
     {
-        //var dialog = new PatientDialog(patient);
-        //dialog.ShowDialog();
+        var dialog = new PatientDialog(SelectedPatient);
+        dialog.ShowDialog();
+        Load();
     }
     private void OnDelete(Patient patient)
     {
@@ -271,7 +276,14 @@ public partial class PatientsViewModel : BaseViewModel
             return;
         }
 
-        _patientsService.Delete(patient);
-        MessageBoxExtension.ShowSuccess($"Patient: {patient.FirstName} {patient.LastName} was successfully deleted.");
+        bool isSuccess = _patientsService.Delete(patient);
+        if (isSuccess)
+        {
+            MessageBoxExtension.ShowSuccess($"Patient: {patient.FirstName} {patient.LastName} was successfully deleted.");
+        }
+        else
+        {
+            MessageBoxExtension.ShowSuccess($"Something went wrong to delete {patient.FirstName} {patient.LastName}. \nPlease try again.");
+        }
     }
 }
