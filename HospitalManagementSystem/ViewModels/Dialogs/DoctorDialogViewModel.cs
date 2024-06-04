@@ -1,6 +1,8 @@
 ﻿using HospitalManagementSystem.Helpers;
 using HospitalManagementSystem.Models;
 using HospitalManagementSystem.Services;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using MvvmHelpers;
 using MvvmHelpers.Commands;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -8,7 +10,7 @@ using System.Windows.Input;
 
 namespace HospitalManagementSystem.ViewModels.Dialogs;
 
-public class DoctorDialogViewModel
+public class DoctorDialogViewModel : BaseViewModel, INotifyPropertyChanged
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }
@@ -54,15 +56,23 @@ public class DoctorDialogViewModel
             OnPropertyChanged(nameof(SelectedPhoneNumber));
         }
     }
+    private string _selectedSpecialization;
+    public string SelectedSpecialization
+    {
+        get => _selectedfirstName;
+        set => SetProperty(ref _selectedSpecialization, value);
+    }
 
     private readonly DoctorsService _doctorsService;
+    private readonly SpecializationsService _specializationsService;
     public ObservableCollection<Specialization> Specializations { get; }
     public ICommand SaveCommand { get; }
 
     public DoctorDialogViewModel()
     {
         SaveCommand = new Command(OnSaveToCreate);
-
+        _specializationsService = new();
+        Specializations = [];
         _doctorsService = new();
     }
 
@@ -70,7 +80,8 @@ public class DoctorDialogViewModel
     public DoctorDialogViewModel(Doctor doctor)
     {
         PopulateDate(doctor);
-
+        _specializationsService = new();
+        Specializations = [];
         SaveCommand = new Command(OnSaveToUpdate);
 
         _doctorsService = new();
@@ -78,7 +89,7 @@ public class DoctorDialogViewModel
 
     private void OnSaveToUpdate()
     {
-        var newPatient = new Doctor()
+        var newDoctor = new Doctor()
         {
             Id = SelectedId,
             FirstName = SelectedFirstName,
@@ -88,7 +99,7 @@ public class DoctorDialogViewModel
 
         bool isSuccess;
 
-        isSuccess = _doctorsService.UpdateDoctor(newPatient);
+        isSuccess = _doctorsService.UpdateDoctor(newDoctor);
 
         if (isSuccess)
         {
@@ -125,10 +136,25 @@ public class DoctorDialogViewModel
 
     private void PopulateDate(Doctor doctor)
     {
+        var specializationsList = _specializationsService.GetAll();
         SelectedId = doctor.Id;
         SelectedFirstName = doctor.FirstName;
         SelectedLastName = doctor.LastName;
         SelectedPhoneNumber = doctor.PhoneNumber;
+
+        foreach (var specialization in specializationsList)
+        {
+            Specializations.Add(specialization);
+        }
+    }
+
+    private void UpdateCollection(IEnumerable<Specialization> enumerable)
+    {
+        Specializations.Clear();
+        foreach (var spec in enumerable)
+        {
+            Specializations.Add(spec);
+        }
     }
 
     public event PropertyChangedEventHandler PropertyChanged;

@@ -46,7 +46,7 @@
             FontSize="25"
             IsEnabled="False"
             Style="{StaticResource MaterialDesignOutlinedTextBox}"
-            Text="{Binding Id}"
+            Text="{Binding SelectedId}"
             Visibility="Hidden" />
         <TextBox
             x:Name="FirstNameInput"
@@ -58,7 +58,7 @@
             md:HintAssist.Hint="Enter First Name"
             FontSize="25"
             Style="{StaticResource MaterialDesignOutlinedTextBox}"
-            Text="{Binding FirstName}" />
+            Text="{Binding SelectedFirstName}" />
         <TextBox
             x:Name="LastNameInput"
             Grid.Row="2"
@@ -69,7 +69,7 @@
             md:HintAssist.Hint="Enter Last Name"
             FontSize="25"
             Style="{StaticResource MaterialDesignOutlinedTextBox}"
-            Text="{Binding LastName}" />
+            Text="{Binding SelectedLastName}" />
         <TextBox
             x:Name="PhoneNumberInput"
             Grid.Row="3"
@@ -80,20 +80,20 @@
             md:HintAssist.Hint="Enter Phone Number"
             FontSize="25"
             Style="{StaticResource MaterialDesignOutlinedTextBox}"
-            Text="{Binding PhoneNumber}" />
+            Text="{Binding SelectedPhoneNumber}" />
         <ComboBox
             Grid.Row="4"
             Grid.ColumnSpan="2"
             Width="280"
             Height="50"
             Margin="20,0"
+            Padding="1,0,0,5"
             HorizontalAlignment="Center"
             md:HintAssist.Hint="Specialization"
-            Padding="1 0 0 5"
-            FontSize="20"
             md:TextFieldAssist.HasClearButton="True"
             Background="LightGoldenrodYellow"
             DisplayMemberPath="Name"
+            FontSize="20"
             IsEnabled="True"
             ItemsSource="{Binding Specializations}"
             SelectedItem="{Binding SelectedSpecialization}"
